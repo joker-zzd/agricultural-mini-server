@@ -1,0 +1,85 @@
+server:
+  port: 9082
+  servlet:
+    context-path: /mini
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/farm_tools_mall?characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: farm_tools_mall
+    password: ${DB_PASSWORD}
+
+  mail:
+    default-encoding: UTF-8
+    host: smtp.qq.com
+    port: 465
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    protocol: smtps
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 5000
+
+  kafka:
+    #    Kafka 集群地址（多个用逗号隔开）
+    bootstrap-servers: localhost:9092
+
+    consumer:
+      # 消费者所属的消费组（用于协调分区消费）
+      group-id: merchant-group-unique-001
+
+      # 消息 key 的反序列化器（从 Kafka 读取 key 时如何转为 Java 对象）
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+      # 消息 value 的反序列化器（从 Kafka 读取 value 时如何转为 Java 对象）
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+      # 自动提交偏移量（可选，true 表示自动提交）
+      enable-auto-commit: true
+
+      # 自动提交间隔（单位毫秒）
+      auto-commit-interval: 1000
+
+    producer:
+      # 消息 key 的序列化器（发送 Kafka 消息时如何把 key 转为字节）
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+      # 消息 value 的序列化器（发送 Kafka 消息时如何把 value 转为字节）
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+      # 重试次数（消息发送失败时最多重试几次）
+      retries: 3
+
+      # 批量发送的大小（单位字节，默认16KB）
+      batch-size: 16384
+
+      # 缓存大小（缓冲区大小，默认32MB）
+      buffer-memory: 33554432
+
+
+tencent:
+  cos:
+    secret-id: ${TENCENT_SECRET_ID}
+    secret-key: ${TENCENT_SECRET_KEY}
+    region: ap-guangzhou
+    bucket-name: shop-1325336690
+    prefix: manager/
+    url-prefix: https://shop-1325336690.cos.ap-guangzhou.myqcloud.com/
+
+alipay:
+  app-id: ${ALIPAY_APP_ID}
+  private-key: ${ALIPAY_PRIVATE_KEY}
+  public-key: ${ALIPAY_PUBLIC_KEY}
+  gateway-url: https://openapi-sandbox.dl.alipaydev.com/gateway.do
+  sign-type: RSA2
+  charset: utf-8
+  format: json
+  notify-url: ${ALIPAY_NOTIFY_URL}
+  return-url: ${ALIPAY_RETURN_URL}

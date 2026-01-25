@@ -1,0 +1,48 @@
+server:
+  port: 8098
+  address: 0.0.0.0
+  servlet:
+    context-path: /mini
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://119.91.217.151:3306/farm_tools_mall?serverTimezone=Asia/Shanghai
+    username: farm_tools_mall
+    password: ${DB_PASSWORD}
+  mail:
+    default-encoding: UTF-8
+    host: smtp.qq.com
+    port: 465
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    protocol: smtps
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+  redis:
+    host: 119.91.217.151
+    port: 6379
+    timeout: 5000
+
+tencent:
+  cos:
+    secret-id: ${TENCENT_SECRET_ID}
+    secret-key: ${TENCENT_SECRET_KEY}
+    region: ap-guangzhou
+    bucket-name: shop-1325336690
+    prefix: manager/
+    url-prefix: https://shop-1325336690.cos.ap-guangzhou.myqcloud.com/
+
+alipay:
+  app-id: ${ALIPAY_APP_ID}
+  private-key: ${ALIPAY_PRIVATE_KEY}
+  public-key: ${ALIPAY_PUBLIC_KEY}
+  gateway-url: https://openapi-sandbox.dl.alipaydev.com/gateway.do
+  sign-type: RSA2
+  charset: utf-8
+  format: json
+  notify-url: ${ALIPAY_NOTIFY_URL}
+  return-url: ${ALIPAY_RETURN_URL}
