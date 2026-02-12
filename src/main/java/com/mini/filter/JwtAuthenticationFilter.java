@@ -3,6 +3,8 @@ package com.mini.filter;
 import com.mini.businessuser.domain.UserDO;
 import com.mini.businessuser.mapper.UserMapper;
 import com.mini.utils.JwtUtils;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -53,7 +55,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
 
             } catch (Exception e) {
-                // token 无效，继续走过滤链或返回401
+                // token 无效，不设置认证对象，不返回 403
+                // 清理上下文，确保白名单接口可以正常访问
+                SecurityContextHolder.clearContext();
+                System.err.println("requestURI = " + request.getRequestURI());
+
             }
         }
 

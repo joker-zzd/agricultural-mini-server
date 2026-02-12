@@ -1,7 +1,6 @@
 package com.mini.configuration.service.impl;
 
-import com.mini.configuration.AlipayConfiguration;
-import com.mini.configuration.TencentCosProperties;
+import com.mini.common.domain.TencentCosProperties;
 import com.mini.configuration.service.FileUploadService;
 import com.mini.resultvo.ResultVO;
 import com.qcloud.cos.COSClient;
@@ -13,7 +12,6 @@ import com.qcloud.cos.region.Region;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Objects;

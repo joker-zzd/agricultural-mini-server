@@ -1,7 +1,7 @@
 package com.mini;
 
 import com.mini.configuration.AlipayConfiguration;
-import com.mini.configuration.TencentCosProperties;
+import com.mini.common.domain.TencentCosProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

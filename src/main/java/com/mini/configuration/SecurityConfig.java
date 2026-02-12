@@ -37,7 +37,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS).permitAll() // 允许预检请求
                 .antMatchers("/api/user/login","/api/merchantReview/review",
                         "/api/file/upload","/api/alipay/pay","/api/alipay/notify",
-                        "/api/user/sendEmailCode","/api/user/emailRegister").permitAll()
+                        "/api/user/sendEmailCode","/api/user/emailRegister",
+                        "/api/product/findByPage","/api/categories/list","api/order/add",
+                        "/api/product/findByPageAndCategoryId").permitAll()
+
                 .anyRequest().authenticated();
 
 
