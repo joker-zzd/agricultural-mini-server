@@ -31,4 +31,5 @@ public class CosService {
      * @param folder 文件夹名称，例如 videos / covers
      * @return 返回文件外链 URL
      */
+
 }
