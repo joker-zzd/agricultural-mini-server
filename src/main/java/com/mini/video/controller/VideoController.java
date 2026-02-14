@@ -31,8 +31,8 @@ public class VideoController {
         return videoService.addVideo(videoDTO);
     }
 
-    @GetMapping("/findById")
-    public ResultVO<VideoVO> findById(@RequestParam(name = "id") Long id) {
+    @GetMapping("/findById/{id}")
+    public ResultVO<VideoVO> findById(@PathVariable Long id) {
         return videoService.findById(id);
     }
 }
