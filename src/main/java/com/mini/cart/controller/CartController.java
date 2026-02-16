@@ -6,6 +6,7 @@ import com.mini.cart.service.CartService;
 import com.mini.resultvo.ResultVO;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Set;
@@ -30,7 +31,7 @@ public class CartController {
     }
 
     @PostMapping("/add")
-    public ResultVO<Void> add(@RequestBody AddCartDTO addCartDTO) {
+    public ResultVO<Void> add(@RequestBody @Valid AddCartDTO addCartDTO) {
         return this.cartService.add(addCartDTO);
     }
 

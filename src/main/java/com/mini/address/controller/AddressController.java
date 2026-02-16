@@ -5,8 +5,10 @@ import com.mini.address.domain.dto.UpdateAddressDTO;
 import com.mini.address.domain.vo.AddressListVO;
 import com.mini.address.service.AddressService;
 import com.mini.resultvo.ResultVO;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
@@ -30,7 +32,7 @@ public class AddressController {
     }
 
     @PostMapping("add")
-    public ResultVO<Long> AddAddress(@RequestBody AddAddressDTO addAddressDTO) {
+    public ResultVO<Long> AddAddress(@RequestBody @Validated AddAddressDTO addAddressDTO) {
         return this.addressService.addAddress(addAddressDTO);
     }
 
@@ -45,7 +47,7 @@ public class AddressController {
     }
 
     @PutMapping("/update")
-    public ResultVO<Void> updateAddress(@RequestBody UpdateAddressDTO updateAddressDTO) {
+    public ResultVO<Void> updateAddress(@RequestBody @Valid UpdateAddressDTO updateAddressDTO) {
         return addressService.updateAddress(updateAddressDTO);
     }
 }

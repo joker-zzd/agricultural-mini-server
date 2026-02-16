@@ -6,6 +6,7 @@ import com.mini.video.domain.vo.VideoVO;
 import com.mini.video.service.VideoService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class VideoController {
     }
 
     @PostMapping(value = "/addVideo", consumes = "multipart/form-data")
-    public ResultVO<Void> addVideo(@ModelAttribute VideoDTO videoDTO) throws IOException {
+    public ResultVO<Void> addVideo(@ModelAttribute @Valid VideoDTO videoDTO) throws IOException {
         return videoService.addVideo(videoDTO);
     }
 

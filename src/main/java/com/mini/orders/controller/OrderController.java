@@ -9,6 +9,7 @@ import com.mini.orders.service.OrdersService;
 import com.mini.resultvo.ResultVO;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +25,7 @@ public class OrderController {
     }
 
     @PostMapping("/add")
-    public ResultVO<Void> createOrder(@RequestBody CreateOrderDTO createOrderDTO) throws JsonProcessingException {
+    public ResultVO<Void> createOrder(@RequestBody @Valid CreateOrderDTO createOrderDTO) throws JsonProcessingException {
         return this.ordersService.createOrder(createOrderDTO);
     }
 

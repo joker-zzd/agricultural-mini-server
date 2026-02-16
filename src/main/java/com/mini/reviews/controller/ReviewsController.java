@@ -7,6 +7,7 @@ import com.mini.reviews.domain.vo.ReviewsListVO;
 import com.mini.reviews.service.ReviewsService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class ReviewsController {
     }
 
     @PostMapping("/add")
-    public ResultVO<Void> addReview(@RequestBody AddReviewDTO addReviewDTO){
+    public ResultVO<Void> addReview(@RequestBody @Valid AddReviewDTO addReviewDTO){
         return this.reviewsService.addReview(addReviewDTO);
     }
 }
