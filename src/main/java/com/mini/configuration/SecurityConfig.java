@@ -34,7 +34,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS).permitAll() // 允许预检请求
+                .antMatchers("/doc.html",
+                        "/webjars/**",
+                        "/swagger-resources/**",
+                        "/v2/api-docs",
+                        "/v3/api-docs",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html").permitAll() // 允许预检请求
                 .antMatchers("/api/user/login","/api/merchantReview/review",
                         "/api/file/upload","/api/alipay/pay","/api/alipay/notify",
                         "/api/user/sendEmailCode","/api/user/emailRegister",

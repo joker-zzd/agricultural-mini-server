@@ -4,6 +4,8 @@ import com.mini.product.domain.vo.ProductDetailVO;
 import com.mini.product.domain.vo.ProductListVO;
 import com.mini.product.service.ProductsService;
 import com.mini.resultvo.ResultVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -12,6 +14,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/product")
+@Api(tags = "商品接口")
 public class ProductController {
 
     private final ProductsService productsService;
@@ -20,6 +23,7 @@ public class ProductController {
         this.productsService = productsService;
     }
 
+    @ApiOperation("分页查询商品列表")
     @GetMapping("/findByPage")
     public ResultVO<List<ProductListVO>> findByPage(
             @RequestParam(name = "currentPage", defaultValue = "1", required = false) Integer currentPage,
@@ -32,6 +36,7 @@ public class ProductController {
         return this.productsService.findByPage(currentPage, pageSize, name, description, min, max);
     }
 
+    @ApiOperation("分页查询商品列表")
     @GetMapping("/findByPageAndCategoryId")
     public ResultVO<List<ProductListVO>> findByPageAndCategoryId(
             @RequestParam(name = "currentPage", defaultValue = "1", required = false) Integer currentPage,
@@ -45,11 +50,13 @@ public class ProductController {
         return this.productsService.findByPageAndCategoryId(currentPage, pageSize, name, description, categoryId, min, max);
     }
 
+    @ApiOperation("查询商品详情")
     @GetMapping("findById")
     public ResultVO<ProductDetailVO> findById(Long id) {
         return productsService.findById(id);
     }
 
+    @ApiOperation("更新商品已售数量")
     @PutMapping("/updateBySold")
     public ResultVO<Void> updateBySold(Long id, Integer quantity) {
         return productsService.updateBySold(id, quantity);

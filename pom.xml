@@ -18,6 +18,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <swagger.version>3.0.3</swagger.version>
     </properties>
 
     <dependencies>
@@ -51,10 +53,17 @@
             <artifactId>hutool-all</artifactId>
             <version>5.8.29</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springdoc</groupId>-->
+<!--            <artifactId>springdoc-openapi-ui</artifactId>-->
+<!--            <version>1.7.0</version>-->
+<!--        </dependency>-->
+
+        <!--knife4j-->
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.7.0</version>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>${swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

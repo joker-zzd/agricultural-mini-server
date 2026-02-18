@@ -1,5 +1,6 @@
 package com.mini;
 
+import com.mini.common.swagger.SwaggerConfigProperties;
 import com.mini.configuration.AlipayConfiguration;
 import com.mini.common.domain.TencentCosProperties;
 import org.springframework.boot.SpringApplication;

@@ -75,8 +75,6 @@ public class VideoServiceImpl extends ServiceImpl<VideoMapper, VideoDO>
     @Override
     public ResultVO<VideoVO> findById(Long id) {
         VideoDO videoDO = this.videoMapper.selectById(id);
-        System.err.println(id);
-        System.err.println(videoDO);
         if (videoDO == null) {
             return ResultVO.fail("视频不存在");
         }
