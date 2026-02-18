@@ -89,7 +89,7 @@ nz:
     enable: true
     enable-response-wrap: true
     package-path: com.mini
-    title: 农业小程序API文档
+    title: 农资商城API文档
     description: 农资商城后端服务API接口文档
     contact-name: 开发团队
     version: 1.0
