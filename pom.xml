@@ -53,11 +53,11 @@
             <artifactId>hutool-all</artifactId>
             <version>5.8.29</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springdoc</groupId>-->
-<!--            <artifactId>springdoc-openapi-ui</artifactId>-->
-<!--            <version>1.7.0</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springdoc</groupId>-->
+        <!--            <artifactId>springdoc-openapi-ui</artifactId>-->
+        <!--            <version>1.7.0</version>-->
+        <!--        </dependency>-->
 
         <!--knife4j-->
         <dependency>
@@ -116,7 +116,7 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
-<!--        腾讯云发送短信-->
+        <!--        腾讯云发送短信-->
         <dependency>
             <groupId>com.tencentcloudapi</groupId>
             <artifactId>tencentcloud-sdk-java</artifactId>
@@ -152,7 +152,17 @@
             <scope>test</scope>
         </dependency>
 
-
+        <!--mq-->
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-amqp</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
 
     </dependencies>

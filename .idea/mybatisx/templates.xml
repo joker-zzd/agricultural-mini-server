@@ -6,7 +6,7 @@
         <option name="generateConfig">
           <GenerateConfig>
             <option name="annotationType" value="MYBATIS_PLUS3" />
-            <option name="basePackage" value="com.mini.video" />
+            <option name="basePackage" value="com.mini.productcomment" />
             <option name="basePath" value="src/main/java" />
             <option name="classNameStrategy" value="camel" />
             <option name="encoding" value="UTF-8" />
@@ -68,8 +68,8 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="Video" />
-                  <option name="tableName" value="video" />
+                  <option name="className" value="ProductComment" />
+                  <option name="tableName" value="product_comment" />
                 </TableUIInfo>
               </list>
             </option>

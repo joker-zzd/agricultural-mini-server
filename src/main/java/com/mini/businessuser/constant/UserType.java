@@ -1,6 +1,6 @@
 package com.mini.businessuser.constant;
 
-public enum Type {
+public enum UserType {
 
     /**
      * 成员

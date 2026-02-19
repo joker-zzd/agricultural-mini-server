@@ -4,6 +4,7 @@ import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.TypeResolver;
 import com.mini.resultvo.ResultVO;
 import com.mini.utils.CollUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,7 @@ public class BaseSwaggerResponseBuilderPlugin implements OperationBuilderPlugin,
     private ModelSpecificationFactory modelSpecifications;
 
     @Override
-    public boolean supports(DocumentationType documentationType) {
+    public boolean supports(@NotNull DocumentationType documentationType) {
         return true;
     }
 

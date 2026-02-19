@@ -9,7 +9,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.mini.businessuser.constant.Type;
+import com.mini.businessuser.constant.UserType;
 import lombok.Data;
 
 /**
@@ -29,7 +29,7 @@ public class UserDO implements Serializable {
      * 
      */
     @TableField(value = "type")
-    private Type type;
+    private UserType userType;
 
     /**
      * 用户名

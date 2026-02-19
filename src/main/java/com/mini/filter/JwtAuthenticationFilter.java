@@ -3,8 +3,6 @@ package com.mini.filter;
 import com.mini.businessuser.domain.UserDO;
 import com.mini.businessuser.mapper.UserMapper;
 import com.mini.utils.JwtUtils;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 if (user != null) {
 //                    LoginUser loginUser = new LoginUser(userId,user.getType());
-                    LoginUser loginUser=new LoginUser(userId,user.getType());
+                    LoginUser loginUser=new LoginUser(userId,user.getUserType());
 
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(

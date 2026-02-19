@@ -12,12 +12,15 @@ import org.springframework.context.annotation.Primary;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.Contact;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @ConditionalOnProperty(prefix = "nz.swagger", name = "enable", havingValue = "true")
@@ -31,7 +34,7 @@ public class Knife4jConfiguration {
         // 1.初始化Docket
         Docket docket = new Docket(DocumentationType.SWAGGER_2);
         // 2.是否需要包装R
-        if(swaggerConfigProperties.getEnableResponseWrap()){
+        if (swaggerConfigProperties.getEnableResponseWrap()) {
             docket.additionalModels(typeResolver.resolve(ResultVO.class));
         }
         return docket.apiInfo(new ApiInfoBuilder()
@@ -47,19 +50,47 @@ public class Knife4jConfiguration {
                 //这里指定Controller扫描包路径
                 .apis(RequestHandlerSelectors.basePackage(swaggerConfigProperties.getPackagePath()))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .securitySchemes(securitySchemes())
+                .securityContexts(securityContexts());
+
+    }
+
+    private List<SecurityScheme> securitySchemes() {
+        return Collections.singletonList(
+                new ApiKey("Authorization", "Authorization", "header")
+        );
+    }
+
+    private List<SecurityContext> securityContexts() {
+        return Collections.singletonList(
+                SecurityContext.builder()
+                        .securityReferences(defaultAuth())
+                        .build()
+        );
+    }
+
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope =
+                new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] scopes = new AuthorizationScope[]{authorizationScope};
+        return Collections.singletonList(
+                new SecurityReference("Authorization", scopes)
+        );
+    }
+
+
+    @Bean
+    @Primary
+    @ConditionalOnProperty(prefix = "nz.swagger", name = "enableResponseWrap", havingValue = "true")
+    public BaseSwaggerResponseModelPlugin baseSwaggerResponseModelPlugin() {
+        return new BaseSwaggerResponseModelPlugin();
     }
 
     @Bean
     @Primary
-    @ConditionalOnProperty(prefix = "nz.swagger", name = "enableResponseWrap",havingValue = "true")
-    public BaseSwaggerResponseModelPlugin baseSwaggerResponseModelPlugin(){
-        return new BaseSwaggerResponseModelPlugin();
-    }
-    @Bean
-    @Primary
-    @ConditionalOnProperty(prefix = "nz.swagger", name = "enableResponseWrap",havingValue = "true")
-    public BaseSwaggerResponseBuilderPlugin baseSwaggerResponseBuilderPlugin(){
+    @ConditionalOnProperty(prefix = "nz.swagger", name = "enableResponseWrap", havingValue = "true")
+    public BaseSwaggerResponseBuilderPlugin baseSwaggerResponseBuilderPlugin() {
         return new BaseSwaggerResponseBuilderPlugin();
     }
 

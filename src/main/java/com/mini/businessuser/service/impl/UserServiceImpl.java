@@ -3,7 +3,7 @@ package com.mini.businessuser.service.impl;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.mini.businessuser.constant.Type;
+import com.mini.businessuser.constant.UserType;
 import com.mini.businessuser.domain.UserDO;
 import com.mini.businessuser.domain.dto.UpdatePasswordDTO;
 import com.mini.businessuser.domain.dto.UserEmailRegisterDTO;
@@ -64,7 +64,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO>
             return ResultVO.fail("账号或密码错误");
         }
 
-        if (!Type.MEMBER.equals(user.getType())) {
+        if (!UserType.MEMBER.equals(user.getUserType())) {
             return ResultVO.fail("管理员及商家账号无法登录");
         }
 
@@ -83,7 +83,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO>
         userMap.put("sex", user.getSex());
         userMap.put("telephone", user.getTelephone());
         userMap.put("avatar", user.getAvatar());
-        userMap.put("type", user.getType());
+        userMap.put("type", user.getUserType());
 
         data.put("user", userMap);
 
@@ -225,7 +225,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO>
         userDO.setUsername(emailRegisterDTO.getUsername());
         userDO.setEmail(emailRegisterDTO.getEmail());
         userDO.setPassword(DigestUtils.md5DigestAsHex(emailRegisterDTO.getPassword().getBytes(StandardCharsets.UTF_8)));
-        userDO.setType(Type.MEMBER); //默认普通用户
+        userDO.setUserType(UserType.MEMBER); //默认普通用户
 
         boolean result = userMapper.insert(userDO) > 0;
         if (result) {
