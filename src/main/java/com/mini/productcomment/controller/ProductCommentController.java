@@ -1,8 +1,8 @@
 package com.mini.productcomment.controller;
 
 import com.mini.common.domain.dto.PageDTO;
-import com.mini.productcomment.domain.ProductComment;
 import com.mini.productcomment.domain.dto.ProductCommentDTO;
+import com.mini.productcomment.domain.dto.ProductCommentReplyDTO;
 import com.mini.productcomment.domain.vo.ProductCommentListVO;
 import com.mini.productcomment.query.ProductCommentQuery;
 import com.mini.productcomment.service.ProductCommentService;
@@ -27,6 +27,7 @@ public class ProductCommentController {
     public ResultVO<Void> save(@RequestBody @Valid ProductCommentDTO productCommentDTO) {
         return productCommentService.savaEvaluate(productCommentDTO);
     }
+
     @ApiOperation("删除评价")
     @DeleteMapping("/delete/{id}")
     public ResultVO<Void> delete(@PathVariable Long id) {
@@ -37,6 +38,12 @@ public class ProductCommentController {
     @GetMapping("/findByPage")
     public PageDTO<ProductCommentListVO> findByPage(ProductCommentQuery query) {
         return productCommentService.findByPage(query);
+    }
+
+    @ApiOperation("新增回答或评论-用户端")
+    @PostMapping("/addReplyOrAnswer")
+    public ResultVO<Void> addReplyOrAnswer(@Valid @RequestBody ProductCommentReplyDTO productCommentReplyDTO) {
+        return productCommentService.addReplyOrAnswer(productCommentReplyDTO);
     }
 
 }

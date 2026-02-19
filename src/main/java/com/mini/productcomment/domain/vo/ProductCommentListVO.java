@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @ApiModel("商品评价分页查询返回VO")
@@ -44,6 +46,6 @@ public class ProductCommentListVO {
     private LocalDate createTime;
 
     @ApiModelProperty("一级评论下的回复列表")
-    private java.util.List<ProductCommentListVO> replyList;
+    private List<ProductCommentListVO> replyList = new ArrayList<>();
 
 }
