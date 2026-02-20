@@ -27,43 +27,12 @@ spring:
     port: 6379
     timeout: 5000
 
-  kafka:
-    #    Kafka 集群地址（多个用逗号隔开）
-    bootstrap-servers: localhost:9092
-
-    consumer:
-      # 消费者所属的消费组（用于协调分区消费）
-      group-id: merchant-group-unique-001
-
-      # 消息 key 的反序列化器（从 Kafka 读取 key 时如何转为 Java 对象）
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-
-      # 消息 value 的反序列化器（从 Kafka 读取 value 时如何转为 Java 对象）
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-
-      # 自动提交偏移量（可选，true 表示自动提交）
-      enable-auto-commit: true
-
-      # 自动提交间隔（单位毫秒）
-      auto-commit-interval: 1000
-
-    producer:
-      # 消息 key 的序列化器（发送 Kafka 消息时如何把 key 转为字节）
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-
-      # 消息 value 的序列化器（发送 Kafka 消息时如何把 value 转为字节）
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-
-      # 重试次数（消息发送失败时最多重试几次）
-      retries: 3
-
-      # 批量发送的大小（单位字节，默认16KB）
-      batch-size: 16384
-
-      # 缓存大小（缓冲区大小，默认32MB）
-      buffer-memory: 33554432
-
-
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /new-vhost
 tencent:
   cos:
     secret-id: ${TENCENT_SECRET_ID}
@@ -93,3 +62,4 @@ nz:
     description: 农资商城后端服务API接口文档
     contact-name: 开发团队
     version: 1.0
+
