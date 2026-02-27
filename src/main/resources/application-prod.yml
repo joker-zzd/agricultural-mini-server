@@ -19,7 +19,7 @@ spring:
     protocol: smtps
     properties:
       mail:
-        smtp:
+        SMTP:
           ssl:
             enable: true
   redis:
@@ -27,7 +27,7 @@ spring:
     port: 6379
     timeout: 5000
 
-tencent:
+Tencent:
   cos:
     secret-id: ${TENCENT_SECRET_ID}
     secret-key: ${TENCENT_SECRET_KEY}
@@ -36,7 +36,7 @@ tencent:
     prefix: manager/
     url-prefix: https://shop-1325336690.cos.ap-guangzhou.myqcloud.com/
 
-alipay:
+Alipay:
   app-id: ${ALIPAY_APP_ID}
   private-key: ${ALIPAY_PRIVATE_KEY}
   public-key: ${ALIPAY_PUBLIC_KEY}

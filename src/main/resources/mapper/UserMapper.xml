@@ -26,4 +26,27 @@
         avatar,birthday,sex,
         created_at,updated_at,email
     </sql>
+
+    <sql id="UserDTO_Column_List">
+        id,
+    type          AS userType,
+    username,
+    nickname,
+    email,
+    telephone,
+    avatar,
+    birthday,
+    sex
+    </sql>
+
+    <select id="selectUserBatchIds" resultType="com.mini.businessuser.domain.dto.UserDTO">
+        select
+        <include refid="UserDTO_Column_List"/>
+        from user
+        where id in
+        <foreach item="ids" index="index" collection="ids"
+                 open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
 </mapper>

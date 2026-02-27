@@ -2,7 +2,6 @@ package com.mini.likedrecord.controller;
 
 import com.mini.likedrecord.domain.dto.LikeRecordFormDTO;
 import com.mini.likedrecord.service.LikedRecordService;
-import com.mini.resultvo.ResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

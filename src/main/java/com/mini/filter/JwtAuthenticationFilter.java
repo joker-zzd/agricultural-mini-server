@@ -56,8 +56,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 // token 无效，不设置认证对象，不返回 403
                 // 清理上下文，确保白名单接口可以正常访问
                 SecurityContextHolder.clearContext();
-                System.err.println("requestURI = " + request.getRequestURI());
-
             }
         }
 

@@ -33,7 +33,7 @@ spring:
     username: guest
     password: guest
     virtual-host: /new-vhost
-tencent:
+Tencent:
   cos:
     secret-id: ${TENCENT_SECRET_ID}
     secret-key: ${TENCENT_SECRET_KEY}
@@ -42,7 +42,7 @@ tencent:
     prefix: manager/
     url-prefix: https://shop-1325336690.cos.ap-guangzhou.myqcloud.com/
 
-alipay:
+Alipay:
   app-id: ${ALIPAY_APP_ID}
   private-key: ${ALIPAY_PRIVATE_KEY}
   public-key: ${ALIPAY_PUBLIC_KEY}

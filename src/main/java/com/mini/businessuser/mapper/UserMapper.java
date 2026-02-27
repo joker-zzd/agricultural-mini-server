@@ -2,7 +2,11 @@ package com.mini.businessuser.mapper;
 
 import com.mini.businessuser.domain.UserDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mini.businessuser.domain.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * @author 19256
@@ -12,7 +16,7 @@ import org.apache.ibatis.annotations.Mapper;
 */
 @Mapper
 public interface UserMapper extends BaseMapper<UserDO> {
-
+    List<UserDTO> selectUserBatchIds(@Param("ids") List<Long> ids);
 }
 
 

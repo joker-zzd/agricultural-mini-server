@@ -32,6 +32,7 @@ public class Knife4jConfiguration {
     @Bean(value = "defaultApi2")
     public Docket defaultApi2(TypeResolver typeResolver) {
         // 1.初始化Docket
+        //http://127.0.0.1:9082/mini/doc.html#/home
         Docket docket = new Docket(DocumentationType.SWAGGER_2);
         // 2.是否需要包装R
         if (swaggerConfigProperties.getEnableResponseWrap()) {
