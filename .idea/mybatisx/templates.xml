@@ -6,7 +6,7 @@
         <option name="generateConfig">
           <GenerateConfig>
             <option name="annotationType" value="MYBATIS_PLUS3" />
-            <option name="basePackage" value="com.mini.productcomment" />
+            <option name="basePackage" value="com.mini.promotion" />
             <option name="basePath" value="src/main/java" />
             <option name="classNameStrategy" value="camel" />
             <option name="encoding" value="UTF-8" />
@@ -68,8 +68,8 @@
             <option name="tableUIInfoList">
               <list>
                 <TableUIInfo>
-                  <option name="className" value="ProductComment" />
-                  <option name="tableName" value="product_comment" />
+                  <option name="className" value="UserCoupon" />
+                  <option name="tableName" value="user_coupon" />
                 </TableUIInfo>
               </list>
             </option>
