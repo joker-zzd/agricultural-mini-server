@@ -36,7 +36,7 @@ public class CouponController {
 
     @ApiOperation("删除优惠券接口")
     @DeleteMapping("{id}")
-    public void deleteById(@ApiParam("优惠券id") @PathVariable("id") Long id){
+    public void deleteById(@PathVariable @ApiParam("优惠券id") Long id){
         couponService.deleteById(id);
     }
 
