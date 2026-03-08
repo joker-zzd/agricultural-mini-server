@@ -5,8 +5,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mini.businessuser.domain.UserDO;
 import com.mini.businessuser.mapper.UserMapper;
+import com.mini.common.constant.ProductRedisConstant;
 import com.mini.product.domain.ProductsDO;
 import com.mini.product.domain.vo.ProductDetailVO;
 import com.mini.product.domain.vo.ProductListVO;
@@ -22,11 +25,15 @@ import com.mini.reviews.mapper.ReviewsMapper;
 import com.mini.sku.domain.SkuDO;
 import com.mini.sku.domain.vo.SkuListVO;
 import com.mini.sku.mapper.SkuMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisAccessor;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author 19256
@@ -34,6 +41,7 @@ import java.util.List;
  * @createDate 2025-04-15 22:34:47
  */
 @Service
+@Slf4j
 public class ProductsServiceImpl extends ServiceImpl<ProductsMapper, ProductsDO>
         implements ProductsService {
 
@@ -42,17 +50,23 @@ public class ProductsServiceImpl extends ServiceImpl<ProductsMapper, ProductsDO>
     private final ReviewsMapper reviewsMapper;
     private final UserMapper userMapper;
     private final SkuMapper skuMapper;
+    private final StringRedisTemplate stringRedisTemplate;
+    private final ObjectMapper objectMapper;
 
     public ProductsServiceImpl(ProductsMapper productsMapper,
                                ProductImagesMapper productImagesMapper,
                                ReviewsMapper reviewsMapper,
                                UserMapper userMapper,
-                               SkuMapper skuMapper) {
+                               SkuMapper skuMapper,
+                               StringRedisTemplate stringRedisTemplate,
+                               ObjectMapper objectMapper) {
         this.productsMapper = productsMapper;
         this.productImagesMapper = productImagesMapper;
         this.reviewsMapper = reviewsMapper;
         this.userMapper = userMapper;
         this.skuMapper = skuMapper;
+        this.stringRedisTemplate = stringRedisTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -139,12 +153,88 @@ public class ProductsServiceImpl extends ServiceImpl<ProductsMapper, ProductsDO>
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public ResultVO<ProductDetailVO> findById(Long id) {
+        String cacheKey = ProductRedisConstant.productDetailKey(id);
+        String cacheValue = getProductDetailCacheValue(cacheKey);
+        if (ProductRedisConstant.CACHE_NULL_VALUE.equals(cacheValue)) {
+            return ResultVO.fail("商品不存在");
+        }
+        if (StringUtils.isNotBlank(cacheValue)) {
+            try {
+                return ResultVO.success(objectMapper.readValue(cacheValue, ProductDetailVO.class));
+            } catch (JsonProcessingException e) {
+                log.warn("Failed to deserialize product detail cache, key={}", cacheKey, e);
+            }
+        }
+        ProductDetailVO detailVO = queryProductDetail(id);
+        if (detailVO == null) {
+            cacheEmptyProduct(cacheKey);
+            return ResultVO.fail("商品不存在");
+        }
+
+        writeProductDetailCache(cacheKey, detailVO);
+        return ResultVO.success(detailVO);
+    }
+
+    @Override
+    public ResultVO<Void> updateBySold(Long id, Integer quantity) {
+        ProductsDO productsDO = productsMapper.selectById(id);
+        if (productsDO == null) {
+            return ResultVO.fail("商品不存在");
+        }
+
+        int currentSold = productsDO.getSold() == null ? 0 : productsDO.getSold();
+        productsDO.setSold(currentSold + quantity);
+        boolean result = productsMapper.updateById(productsDO) > 0;
+        if (result) {
+            deleteProductDetailCache(id);
+            return ResultVO.success();
+        } else {
+            return ResultVO.fail();
+        }
+    }
+
+    private void writeProductDetailCache(String cacheKey, ProductDetailVO detailVO) {
+        try {
+            String json = objectMapper.writeValueAsString(detailVO);
+            stringRedisTemplate.opsForValue().set(
+                    cacheKey,
+                    json,
+                    ProductRedisConstant.PRODUCT_DETAIL_TTL_MINUTES,
+                    TimeUnit.SECONDS
+            );
+        } catch (JsonProcessingException e) {
+            log.warn("Failed to serialize product detail cache, key={}", cacheKey, e);
+        }
+    }
+
+    private void cacheEmptyProduct(String cacheKey) {
+        try {
+            stringRedisTemplate.opsForValue().set(
+                    cacheKey,
+                    ProductRedisConstant.CACHE_NULL_VALUE,
+                    ProductRedisConstant.PRODUCT_DETAIL_NULL_TTL_MINUTES,
+                    TimeUnit.SECONDS
+            );
+        } catch (Exception e) {
+            log.warn("Failed to cache empty product detail, key={}", cacheKey, e);
+        }
+    }
+
+    private void deleteProductDetailCache(Long productId) {
+        try {
+            stringRedisTemplate.delete(ProductRedisConstant.productDetailKey(productId));
+        } catch (Exception e) {
+            log.warn("Failed to delete product detail cache, productId={}", productId, e);
+        }
+    }
+
+    private ProductDetailVO queryProductDetail(Long id) {
         ProductsDO productDO = this.productsMapper.selectById(id);
 
         if (productDO == null) {
-            return ResultVO.fail("数据不存在");
+            return null;
         }
 
         //查询详情图
@@ -217,30 +307,17 @@ public class ProductsServiceImpl extends ServiceImpl<ProductsMapper, ProductsDO>
         detailVO.setImageList(productImageItemVOS);
         detailVO.setReviewList(reviewsListVOList);
         detailVO.setSkuList(skuListVOList);
-
-        return ResultVO.success(detailVO);
+        return detailVO;
     }
 
-    @Override
-    public ResultVO<Void> updateBySold(Long id, Integer quantity) {
-        ProductsDO productsDO = productsMapper.selectById(id);
-
-        if (productsDO == null) {
-            ResultVO.fail("商品不存在");
+    private String getProductDetailCacheValue(String cacheKey) {
+        try {
+            return stringRedisTemplate.opsForValue().get(cacheKey);
+        } catch (Exception e) {
+            log.warn("Failed to read product detail cache, key={}", cacheKey, e);
+            return null;
         }
-
-        assert productsDO != null;
-        int currentSold = productsDO.getSold() == null ? 0 : productsDO.getSold();
-        productsDO.setSold(currentSold + quantity);
-        boolean result = productsMapper.updateById(productsDO) > 0;
-        if (result) {
-            return ResultVO.success();
-        } else {
-            return ResultVO.fail();
-        }
-
     }
-
 }
 
 
