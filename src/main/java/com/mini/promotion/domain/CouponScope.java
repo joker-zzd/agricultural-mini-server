@@ -1,0 +1,43 @@
+package com.mini.promotion.domain;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+
+/**
+ * 优惠券作用范围信息
+ * @TableName coupon_scope
+ */
+@TableName(value ="coupon_scope")
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+public class CouponScope {
+    /**
+     * 
+     */
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
+
+    /**
+     * 范围限定类型：1-分类，2-课程，等等
+     */
+    @TableField(value = "type")
+    private Integer type;
+
+    /**
+     * 优惠券id
+     */
+    @TableField(value = "coupon_id")
+    private Long couponId;
+
+    /**
+     * 优惠券作用范围的业务id，例如分类id、课程id
+     */
+    @TableField(value = "biz_id")
+    private Long bizId;
+}

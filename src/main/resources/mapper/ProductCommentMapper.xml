@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.productcomment.mapper.ProductCommentMapper">
+
+    <resultMap id="BaseResultMap" type="com.mini.productcomment.domain.ProductComment">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="productId" column="product_id" jdbcType="BIGINT"/>
+            <result property="orderId" column="order_id" jdbcType="BIGINT"/>
+            <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
+            <result property="rootId" column="root_id" jdbcType="BIGINT"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="userType" column="user_type" jdbcType="TINYINT"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="score" column="score" jdbcType="TINYINT"/>
+            <result property="replyTimes" column="reply_times" jdbcType="INTEGER"/>
+            <result property="likedTimes" column="liked_times" jdbcType="INTEGER"/>
+            <result property="anonymity" column="anonymity" jdbcType="BIT"/>
+            <result property="hidden" column="hidden" jdbcType="BIT"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,product_id,order_id,
+        parent_id,root_id,user_id,
+        user_type,content,score,
+        reply_times,liked_times,anonymity,
+        hidden,status,create_time,
+        update_time
+    </sql>
+</mapper>
